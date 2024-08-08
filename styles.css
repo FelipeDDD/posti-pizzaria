@@ -242,7 +242,7 @@ li a {
         width: 100%;
     }
     .mapa iframe{
-        width: 110%;
+        width: 100%;
     }
 }
 
@@ -288,14 +288,13 @@ li a {
         width: 85%; 
     }
     .localizacao_section {
-        width: 90%;
+        width: 100%;
     }
     .contato_div {
         flex-direction: column;
         gap: 30px;
     }
     .mapa iframe {
-        width: 120%;
-        height: 300px;
+        display: flex;
     }
 }

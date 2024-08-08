@@ -165,7 +165,7 @@ li a {
     background-color: var(--amarelo);
     display: flex;
     margin-top: 50px;
-    height: 950px;
+    padding: 30px;
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
@@ -173,7 +173,6 @@ li a {
 .localizacao_section h1 {
     display: flex;
     margin-top: 100px;
-    
 }
 .contato_div {
     display: flex;
@@ -195,9 +194,9 @@ li a {
 }
 .insta_contato {
     display: flex;
-    justify-content: start;
-    gap: 35%;
+    gap: 20%;
     align-items: center;
+    justify-content: space-between;
 }
 .mapas {
     display: flex;

@@ -225,7 +225,7 @@ li a {
         gap: 1%;
     }
     .site_container_button {
-        width: 100%;
+
         height: auto;
         padding: 15px;
     }
@@ -262,6 +262,7 @@ li a {
         flex-direction: column;
         gap: 20px;
         height: auto;
+        width: 100%;
     }
     .logo_img {
         width: 200px;
@@ -275,14 +276,17 @@ li a {
         font-size: 24px;
     }
     .home_section {
+        width: 100%;
         height: 600px;
         flex-direction: column;
     }
     .site_container_button {
-        width: 80%;
+        width: 70%;
         height: auto;
         padding: 20px;
-        font-size: 20px;
+    }
+    .site_container_button h1 {
+        font-size: 30px;
     }
     .quem_somos_section {
         flex-direction: column;
@@ -293,6 +297,7 @@ li a {
     }
     .quem_somos {
         width: 100%; 
+        padding: 3%;
     }
     .localizacao_section {
         width: 100%;
@@ -302,6 +307,6 @@ li a {
         gap: 30px;
     }
     .mapa iframe {
-        display: flex;
+        width: 100%;
     }
 }

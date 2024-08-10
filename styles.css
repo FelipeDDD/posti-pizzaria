@@ -163,6 +163,10 @@ li a {
 .quem_somos h1 {
     margin-top: 100px;
 }
+.quem_somos h3 {
+    text-align: justify;
+    text-justify: inter-word;
+}
 .localizacao_section {
     background-color: var(--amarelo);
     display: flex;

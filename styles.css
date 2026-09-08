@@ -28,7 +28,7 @@
 
 @font-face {
     font-family: ParmaPetit;
-    src: url('fonts/ParmaPetitSCItalic.ttf') format('truetype'); // SC = Small Caps
+    src: url('fonts/ParmaPetitSCItalic.ttf') format('truetype'); /* SC = Small Caps */
     font-weight: normal;  /* 400 */
     font-style: italic;
 }
@@ -208,6 +208,97 @@ li a {
     display: flex;
 }
 
+/* Artigos: estilos locais para o conteúdo injetado pelo Soro. */
+.artigos_section {
+  margin-top: 50px;
+  padding-inline: clamp(16px, 2vw, 30px);
+}
+
+#soro-blog {
+  height: auto !important;
+  min-height: 0 !important;
+  scroll-margin-top: 24px;
+}
+
+/* O embed define 800px por padrão; a lista acompanha o contêiner do site. */
+#soro-blog .soro-blog {
+  max-width: 100%;
+  color: var(--cinza);
+}
+
+/* Preserva uma largura confortável para a leitura do artigo completo. */
+#soro-blog .soro-blog-article,
+#soro-blog .soro-blog-header {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+#soro-blog .soro-blog-card {
+  background-color: #fff;
+  border: 1px solid rgba(52, 52, 52, 0.16);
+  border-left: 3px solid var(--laranja);
+  border-radius: 15px;
+  box-shadow: 0 3px 10px rgba(52, 52, 52, 0.06);
+  color: var(--cinza);
+}
+
+#soro-blog .soro-blog-card:hover {
+  border-color: var(--laranja);
+  box-shadow: 0 6px 16px rgba(52, 52, 52, 0.12);
+}
+
+#soro-blog .soro-blog-card-title {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.2;
+  color: var(--cinza);
+}
+
+#soro-blog .soro-blog-card-excerpt {
+  font-size: 16px;
+  color: var(--cinza);
+}
+
+#soro-blog .soro-blog-card-date {
+  color: #666;
+}
+
+.artigos_section > #soro-show-all,
+.artigos_section > #soro-back-to-articles {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 48px;
+  margin: 28px auto 0;
+  padding: 14px 28px;
+  border: 2px solid rgba(52, 52, 52, 0.2);
+  border-radius: 15px;
+  background-color: var(--amarelo);
+  color: var(--cinza);
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(52, 52, 52, 0.15);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.artigos_section > #soro-show-all:hover,
+.artigos_section > #soro-back-to-articles:hover {
+  border-color: var(--laranja);
+  box-shadow: 0 6px 10px rgba(52, 52, 52, 0.22);
+}
+
+#soro-blog .soro-blog-card:focus-visible,
+#soro-blog .soro-blog-back:focus-visible,
+.artigos_section > #soro-show-all:focus-visible,
+.artigos_section > #soro-back-to-articles:focus-visible {
+  outline: 3px solid var(--cinza);
+  outline-offset: 4px;
+}
 
 
 

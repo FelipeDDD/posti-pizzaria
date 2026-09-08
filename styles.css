@@ -116,7 +116,7 @@ li a {
     text-decoration: none;
 }
 .home_section {
-    background-image: url('/public/images/pizza1.jpg');
+    background-image: url('/public/images/pizza1.webp');
     background-size: cover;
     margin-top: 50px;
     height: 950px;

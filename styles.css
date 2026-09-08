@@ -209,9 +209,46 @@ li a {
 }
 
 /* Artigos: estilos locais para o conteúdo injetado pelo Soro. */
+.design-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: var(--cinza);
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.design-preview a {
+  padding: 12px 16px;
+  border: 1px solid var(--amarelo);
+  border-radius: 8px;
+  color: var(--amarelo);
+  text-decoration: none;
+}
+
+.design-preview a:hover,
+.design-preview a[aria-current="page"] {
+  background-color: var(--amarelo);
+  color: var(--cinza);
+}
+
+.design-preview a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 .artigos_section {
   margin-top: 50px;
   padding-inline: clamp(16px, 2vw, 30px);
+}
+
+.artigos_section--final {
+  margin-bottom: 50px;
 }
 
 #soro-blog {

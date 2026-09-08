@@ -1,5 +1,49 @@
 const soroBlog = document.getElementById("soro-blog");
-const visibleArticles = 6;
+const designPreview = new URLSearchParams(window.location.search).get("design");
+const mobileViewport = window.matchMedia("(max-width: 600px)");
+
+// Comparação temporária, ativada somente pelos links de prévia.
+if (designPreview === "final" || designPreview === "compacto") {
+  const articlesSection = document.querySelector(".artigos_section");
+  const contactSection = document.getElementById("localizacao")?.closest(".centralizer");
+
+  if (designPreview === "final" && articlesSection && contactSection) {
+    contactSection.insertAdjacentElement("afterend", articlesSection);
+    articlesSection.classList.add("artigos_section--final");
+  }
+
+  const previewNav = document.createElement("nav");
+  previewNav.className = "design-preview";
+  previewNav.setAttribute("aria-label", "Comparar versões do site");
+
+  const label = document.createElement("strong");
+  label.textContent = "Comparar versões:";
+  previewNav.appendChild(label);
+
+  [
+    ["final", "Artigos no final"],
+    ["compacto", "Posição atual · 3 no celular"],
+    [null, "Original"],
+  ].forEach(([design, text]) => {
+    const url = new URL(window.location.href);
+    if (design) url.searchParams.set("design", design);
+    else url.searchParams.delete("design");
+    url.searchParams.delete("post");
+    url.hash = "";
+
+    const link = document.createElement("a");
+    link.href = url.toString();
+    link.textContent = text;
+    if (design === designPreview) link.setAttribute("aria-current", "page");
+    previewNav.appendChild(link);
+  });
+
+  document.body.prepend(previewNav);
+}
+
+function getVisibleArticles() {
+  return designPreview === "compacto" && mobileViewport.matches ? 3 : 6;
+}
 
 function updateSoroBlog() {
   if (!soroBlog) return;
@@ -42,7 +86,7 @@ if (backButton) {
 
   // Sempre volta para o estado inicial quando a lista é carregada novamente
   cards.forEach((card, index) => {
-    card.style.display = index < visibleArticles ? "" : "none";
+    card.style.display = index < getVisibleArticles() ? "" : "none";
   });
 
   if (oldButton) {
@@ -62,7 +106,7 @@ if (backButton) {
 
     currentCards.forEach((card, index) => {
       card.style.display =
-        shouldExpand || index < visibleArticles ? "" : "none";
+        shouldExpand || index < getVisibleArticles() ? "" : "none";
     });
 
     button.dataset.expanded = shouldExpand ? "true" : "false";
@@ -88,9 +132,22 @@ const observer = new MutationObserver(() => {
   updateSoroBlog();
 });
 
-observer.observe(soroBlog, {
-  childList: true,
-  subtree: true,
+// Ao girar o celular ou redimensionar, mantém a escolha de expandir a lista.
+mobileViewport.addEventListener("change", () => {
+  if (designPreview !== "compacto" || !soroBlog) return;
+  if (new URLSearchParams(window.location.search).has("post")) return;
+
+  const expanded = document.getElementById("soro-show-all")?.dataset.expanded === "true";
+  soroBlog.querySelectorAll(".soro-blog-card").forEach((card, index) => {
+    card.style.display = expanded || index < getVisibleArticles() ? "" : "none";
+  });
 });
+
+if (soroBlog) {
+  observer.observe(soroBlog, {
+    childList: true,
+    subtree: true,
+  });
+}
 
 updateSoroBlog();

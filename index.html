@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
 
     <!-- Yanone Kaffeesatz Font-->
 
@@ -72,7 +72,7 @@
     <div class="centralizer">
       <div class="quem_somos_section" id="quemsomos">
 
-        <img src="public/images/pizza8.webp"
+        <img src="/public/images/pizza8.webp"
              alt="Pizza artesanal da Parma d'Oro"
         />
 
@@ -141,6 +141,37 @@ Para nós, cada detalhe importa, e estamos sempre em busca de novas formas de su
     </div>
 
 
-    <script src="script.js"></script>
+    <!-- Conteúdo usado somente na quarta opção de design. -->
+    <template id="modern-hero-template">
+      <div class="modern-hero-copy">
+        <p class="modern-eyebrow">Artesanal de verdade · Porto Alegre</p>
+        <h1>Feita com tempo.<br><em>Pedida com vontade.</em></h1>
+        <p class="modern-hero-description">Massa de longa fermentação, molho artesanal e aquele cuidado que você sente em cada fatia.</p>
+        <p class="modern-order-label">Escolha sua unidade e faça seu pedido</p>
+        <div class="modern-orders"></div>
+        <p class="modern-hero-note">Da nossa cozinha para a sua mesa.</p>
+      </div>
+      <figure class="modern-hero-photo">
+        <img src="/public/images/pizza1.webp" alt="Pizza da Parma d'Oro com queijo, calabresa e cebola" fetchpriority="high" />
+        <figcaption>Massa aberta na hora. Sabor em cada detalhe.</figcaption>
+      </figure>
+    </template>
+
+    <template id="modern-articles-template">
+      <header class="modern-articles-heading">
+        <p class="modern-eyebrow">Além da última fatia</p>
+        <h2>Uma boa pizza rende assunto.</h2>
+        <p>Dicas, sabores e histórias para quem também ama pizza.</p>
+      </header>
+    </template>
+
+    <template id="modern-footer-template">
+      <footer class="modern-footer centralizer">
+        <p>Parma d'Oro <span>Feita com cuidado, em Porto Alegre.</span></p>
+        <a href="#container">Voltar ao topo ↑</a>
+      </footer>
+    </template>
+
+    <script src="/script.js"></script>
   </body>
 </html>

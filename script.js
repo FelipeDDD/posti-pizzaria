@@ -1,141 +1,8 @@
 const soroBlog = document.getElementById("soro-blog");
-const previewPath = new URL(window.location.href).pathname.match(/^\/previa\/(original|final|compacto|moderno)\/?$/i);
-const designPreview = previewPath?.[1].toLowerCase()
-  ?? new URLSearchParams(window.location.search).get("design");
 const mobileViewport = window.matchMedia("(max-width: 600px)");
-const compactMobileArticles = designPreview === "compacto" || designPreview === "moderno";
-
-if (designPreview === "moderno") {
-  applyModernDesign();
-}
-
-function applyModernDesign() {
-  const stylesheet = document.createElement("link");
-  stylesheet.rel = "stylesheet";
-  stylesheet.href = "/public/modern.css";
-  document.head.appendChild(stylesheet);
-  document.body.classList.add("design-modern");
-
-  const logo = document.querySelector(".logo_img");
-  if (logo) {
-    logo.src = "/public/images/logo/Logo-Sombra-sem-fundo.png";
-    logo.alt = "Parma d'Oro Pizzaria";
-  }
-
-  const hero = document.querySelector(".home_section");
-  const heroTemplate = document.getElementById("modern-hero-template");
-  if (hero && heroTemplate) {
-    const orderLinks = [...hero.querySelectorAll(".site_container_button")];
-    hero.appendChild(heroTemplate.content.cloneNode(true));
-    const orders = hero.querySelector(".modern-orders");
-    orderLinks.forEach((link) => {
-      const unit = document.createElement("strong");
-      unit.textContent = link.textContent.trim().replace(/^Parma d'Oro\s*-\s*/, "");
-      const action = document.createElement("span");
-      action.textContent = "Ver cardápio ↗";
-      link.replaceChildren(unit, action);
-      link.rel = "noopener noreferrer";
-      orders.appendChild(link);
-    });
-  }
-
-  const articles = document.querySelector(".artigos_section");
-  const articlesTemplate = document.getElementById("modern-articles-template");
-  if (articles && articlesTemplate) {
-    articles.prepend(articlesTemplate.content.cloneNode(true));
-  }
-
-  // A nova chamada principal é o h1 desta versão; as demais seções usam h2.
-  document.querySelectorAll(".quem_somos > h1, .localizacao_section > h1").forEach((heading) => {
-    const title = document.createElement("h2");
-    title.className = "modern-section-title";
-    title.textContent = heading.textContent;
-    heading.replaceWith(title);
-  });
-  const story = document.querySelector(".quem_somos > h3");
-  if (story) {
-    const text = document.createElement("div");
-    text.className = "modern-story-text";
-    text.append(...story.childNodes);
-    story.replaceWith(text);
-  }
-
-  const footerTemplate = document.getElementById("modern-footer-template");
-  if (footerTemplate) document.body.appendChild(footerTemplate.content.cloneNode(true));
-}
-
-// Comparação temporária, ativada somente pelos links de prévia.
-if (["original", "final", "compacto", "moderno"].includes(designPreview)) {
-  const articlesSection = document.querySelector(".artigos_section");
-  const contactSection = document.getElementById("localizacao")?.closest(".centralizer");
-
-  if (["final", "moderno"].includes(designPreview) && articlesSection && contactSection) {
-    contactSection.insertAdjacentElement("afterend", articlesSection);
-    articlesSection.classList.add("artigos_section--final");
-  }
-
-  const previewNav = document.createElement("nav");
-  previewNav.className = "design-preview";
-  previewNav.setAttribute("aria-label", "Comparar versões do site");
-
-  const label = document.createElement("strong");
-  label.textContent = "Comparar versões:";
-  previewNav.appendChild(label);
-
-  [
-    ["final", "Artigos no final"],
-    ["compacto", "Posição atual · 3 no celular"],
-    ["moderno", "Moderno"],
-    ["original", "Original"],
-  ].forEach(([design, text]) => {
-    const link = document.createElement("a");
-    link.href = getDesignPreviewUrl(design).toString();
-    link.textContent = text;
-    if (design === designPreview) link.setAttribute("aria-current", "page");
-    previewNav.appendChild(link);
-  });
-
-  const copyButton = document.createElement("button");
-  copyButton.type = "button";
-  copyButton.textContent = "Copiar link desta versão";
-  const copyStatus = document.createElement("span");
-  copyStatus.setAttribute("role", "status");
-  const copyField = document.createElement("input");
-  copyField.type = "text";
-  copyField.readOnly = true;
-  copyField.hidden = true;
-  copyField.setAttribute("aria-label", "Link desta versão para copiar");
-
-  copyButton.addEventListener("click", async () => {
-    const url = getDesignPreviewUrl(designPreview).toString();
-    try {
-      await navigator.clipboard.writeText(url);
-      copyField.hidden = true;
-      copyStatus.textContent = "Link copiado!";
-    } catch {
-      copyField.value = url;
-      copyField.hidden = false;
-      copyField.focus();
-      copyField.select();
-      copyStatus.textContent = "Copie o endereço selecionado abaixo.";
-    }
-  });
-  previewNav.append(copyButton, copyStatus, copyField);
-  document.body.prepend(previewNav);
-}
-
-function getDesignPreviewUrl(design) {
-  const url = new URL(window.location.href);
-  url.pathname = `/previa/${design}`;
-  // Mantém os demais parâmetros, inclusive os de acesso compartilhado da Vercel.
-  url.searchParams.delete("design");
-  url.searchParams.delete("post");
-  url.hash = "";
-  return url;
-}
 
 function getVisibleArticles() {
-  return compactMobileArticles && mobileViewport.matches ? 3 : 6;
+  return mobileViewport.matches ? 3 : 6;
 }
 
 function updateSoroBlog() {
@@ -145,58 +12,47 @@ function updateSoroBlog() {
   const oldButton = document.getElementById("soro-show-all");
   const backButton = document.getElementById("soro-back-to-articles");
   const isArticle = new URLSearchParams(window.location.search).has("post");
-  const articlesHeading = document.querySelector(".modern-articles-heading");
-  if (articlesHeading) articlesHeading.hidden = isArticle;
 
-  // Estamos dentro de um artigo, não na lista
+  // O artigo individual usa apenas o botão de retorno ao final do conteúdo.
   if (isArticle) {
-  if (oldButton) {
-    oldButton.remove();
+    if (oldButton) oldButton.remove();
+
+    if (!backButton) {
+      const button = document.createElement("button");
+      button.id = "soro-back-to-articles";
+      button.type = "button";
+      button.textContent = "Voltar aos artigos";
+
+      button.addEventListener("click", () => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("post");
+        url.hash = "soro-blog";
+        window.location.href = url.toString();
+      });
+
+      soroBlog.insertAdjacentElement("afterend", button);
+    }
+
+    return;
   }
 
-  if (!backButton) {
-    const button = document.createElement("button");
+  if (backButton) backButton.remove();
 
-    button.id = "soro-back-to-articles";
-    button.textContent = "Voltar aos artigos";
-
-    button.addEventListener("click", () => {
-  const url = new URL(window.location.href);
-
-  url.searchParams.delete("post");
-  url.hash = "soro-blog";
-
-  window.location.href = url.toString();
-});
-
-    soroBlog.insertAdjacentElement("afterend", button);
-  }
-
-  return;
-}
-
-if (backButton) {
-  backButton.remove();
-}
-
-  // Sempre volta para o estado inicial quando a lista é carregada novamente
+  // Ao carregar novamente a lista, volta ao limite da largura atual da tela.
   cards.forEach((card, index) => {
     card.style.display = index < getVisibleArticles() ? "" : "none";
   });
 
-  if (oldButton) {
-    oldButton.remove();
-  }
+  if (oldButton) oldButton.remove();
 
   const button = document.createElement("button");
-
   button.id = "soro-show-all";
+  button.type = "button";
   button.textContent = "Ver todos os artigos";
   button.dataset.expanded = "false";
 
   button.addEventListener("click", () => {
     const currentCards = [...soroBlog.querySelectorAll(".soro-blog-card")];
-
     const shouldExpand = button.dataset.expanded !== "true";
 
     currentCards.forEach((card, index) => {
@@ -205,17 +61,13 @@ if (backButton) {
     });
 
     button.dataset.expanded = shouldExpand ? "true" : "false";
-
     button.textContent = shouldExpand
       ? "Mostrar menos"
       : "Ver todos os artigos";
 
     if (!shouldExpand) {
       requestAnimationFrame(() => {
-        button.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
+        button.scrollIntoView({ behavior: "smooth", block: "center" });
       });
     }
   });
@@ -229,7 +81,7 @@ const observer = new MutationObserver(() => {
 
 // Ao girar o celular ou redimensionar, mantém a escolha de expandir a lista.
 mobileViewport.addEventListener("change", () => {
-  if (!compactMobileArticles || !soroBlog) return;
+  if (!soroBlog) return;
   if (new URLSearchParams(window.location.search).has("post")) return;
 
   const expanded = document.getElementById("soro-show-all")?.dataset.expanded === "true";

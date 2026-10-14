@@ -1,36 +1,21 @@
 @font-face {
-    font-family: ParmaPetit;
-    src: url('fonts/ParmaPetit-HeavySwinging.ttf') format('truetype');
-    font-weight: 900;
+    font-family: 'Yanone Kaffeesatz';
+    src: url('/public/fonts/yanone-kaffeesatz-latin.woff2') format('woff2');
+    font-weight: 200 700;
     font-style: normal;
+    font-display: swap;
 }
 
-@font-face {
-    font-family: ParmaPetit;
-    src: url('fonts/ParmaPetit-Italic.ttf') format('truetype');
-    font-weight: normal;  /* 400 */
-    font-style: italic;
-}
-
-@font-face {
-    font-family: ParmaPetit;
-    src: url('fonts/ParmaPetit-Normal.ttf') format('truetype');
-    font-weight: normal;  /* 400 */
-    font-style: normal;
-}
-
-@font-face {
-    font-family: ParmaPetit;
-    src: url('fonts/ParmaPetitOutline.ttf') format('truetype');
-    font-weight: normal;  /* 400 */
-    font-style: normal;
-}
-
-@font-face {
-    font-family: ParmaPetit;
-    src: url('fonts/ParmaPetitSCItalic.ttf') format('truetype'); /* SC = Small Caps */
-    font-weight: normal;  /* 400 */
-    font-style: italic;
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* COLORS */
@@ -72,22 +57,22 @@ html, body {
 }
 .logo_img {
     width: 350px;
-    height: 162px;
+    height: auto;
 }
-h1 {
+h1, .section-title, .order-label {
     font-family: 'Yanone Kaffeesatz', sans-serif;
-    font-weight: 900;
+    font-weight: 700;
     font-size: 50px;
     font-style: normal;
     color: var(--cinza);
 }
-h2 {
+h2:not(.section-title) {
     font-family: 'Yanone Kaffeesatz', sans-serif;
     font-weight: normal;
     font-style: italic;
     color: var(--cinza);
 }
-h3 {
+h3, .body-copy, .contato p {
     font-family: 'Yanone Kaffeesatz', sans-serif;
     font-weight: normal;
     font-style: normal;
@@ -116,7 +101,7 @@ li a {
     text-decoration: none;
 }
 .home_section {
-    background-image: url('/public/images/pizza1.webp');
+    background-image: url('/public/images/pizza1-1440.webp');
     background-size: cover;
     margin-top: 50px;
     height: 950px;
@@ -150,6 +135,8 @@ li a {
 }
 .quem_somos_section img {
   width: 50%;
+  height: auto;
+  object-fit: cover;
 }
 .quem_somos {
     background-color: var(--amarelo);
@@ -160,10 +147,10 @@ li a {
     align-items: center;
     padding: 50px;
 }
-.quem_somos h1 {
+.quem_somos .section-title {
     margin-top: 100px;
 }
-.quem_somos h3 {
+.quem_somos .body-copy {
     text-align: justify;
     text-justify: inter-word;
 }
@@ -176,7 +163,7 @@ li a {
     align-items: center;
     flex-direction: column;
 }
-.localizacao_section h1 {
+.localizacao_section .section-title {
     display: flex;
     margin-top: 100px;
 }
@@ -192,7 +179,7 @@ li a {
     background-color: var(--orange);
     padding: 2%;
 }
-.contato h3 {
+.contato h3, .contato p {
     font-size: 30px;
 }
 .contato img {
@@ -328,7 +315,7 @@ li a {
         height: auto;
         padding: 15px;
     }
-    .site_container_button h1 {
+    .site_container_button .order-label {
         font-size: 35px;
     }
     .quem_somos_section {
@@ -341,10 +328,10 @@ li a {
     .quem_somos {
         width: 100%;
     }
-    .quem_somos h1 {
+    .quem_somos .section-title {
         margin-top: 35px;
     }
-    .localizacao_section h1 {
+    .localizacao_section .section-title {
         margin-top: 35px;
     }
     .mapa iframe{
@@ -375,6 +362,7 @@ li a {
         font-size: 24px;
     }
     .home_section {
+        background-image: url('/public/images/pizza1-960.webp');
         width: 100%;
         height: 600px;
         flex-direction: column;
@@ -384,7 +372,7 @@ li a {
         height: auto;
         padding: 20px;
     }
-    .site_container_button h1 {
+    .site_container_button .order-label {
         font-size: 30px;
     }
     .quem_somos_section {
@@ -409,3 +397,8 @@ li a {
         width: 100%;
     }
 }
+
+.section-title, .order-label { margin-block: 0.67em; }
+.body-copy, .contato p { margin-block: 1em; }
+.mapa { min-height: 350px; }
+.map-link { color: var(--cinza); font-size: 24px; }

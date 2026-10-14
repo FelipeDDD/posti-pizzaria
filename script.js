@@ -1,3 +1,23 @@
+// Evita que os dois mapas disputem a conexão com a imagem principal.
+const deferredMaps = document.querySelectorAll("iframe[data-src]");
+function loadMap(frame) {
+  frame.src = frame.dataset.src;
+  frame.removeAttribute("data-src");
+}
+if ("IntersectionObserver" in window) {
+  const mapObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadMap(entry.target);
+        mapObserver.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: "300px 0px" });
+  deferredMaps.forEach((frame) => mapObserver.observe(frame));
+} else {
+  deferredMaps.forEach(loadMap);
+}
+
 const soroBlog = document.getElementById("soro-blog");
 const mobileViewport = window.matchMedia("(max-width: 600px)");
 
@@ -7,6 +27,14 @@ function getVisibleArticles() {
 
 function updateSoroBlog() {
   if (!soroBlog) return;
+
+  // O embed usa links comuns, sem a estrutura e navegação de um feed ARIA.
+  soroBlog.querySelectorAll('.soro-blog-list[role="feed"]').forEach((list) => {
+    list.setAttribute("role", "region");
+    if (!list.getAttribute("aria-label")?.trim()) {
+      list.setAttribute("aria-label", "Artigos do blog");
+    }
+  });
 
   const cards = [...soroBlog.querySelectorAll(".soro-blog-card")];
   const oldButton = document.getElementById("soro-show-all");
